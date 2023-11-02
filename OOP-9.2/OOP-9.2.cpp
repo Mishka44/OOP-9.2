@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <vector>
 
 class Harvest {
 public:
@@ -31,6 +32,8 @@ private:
 
 class Plants {
 public:
+    Plants(int number) : fetus_counter(number){}
+
     virtual Harvest* Fruit_pic() = 0;
 
     std::string Get_color() {
@@ -80,22 +83,58 @@ public:
 
 };
 
+class Blackberry : public Harvest {
+public:
+    Blackberry(int new_weight, std::string new_color) : Harvest("Blackberry", new_color, new_weight) {}
+
+
+};
+
 
 
 class Apple_tree :public Plants {
+public:
+    Apple_tree(int number) : Plants(number){}
+
     virtual Harvest* Fruit_pic() {
-        return new Apple(23, "green");
+        if (this->Get_Fetus_counter() != 0) {
+            this->Set_fetus_counter(this->Get_Fetus_counter() - 1);
+            return new Apple(23, "green");
+        }
+    }
+};
+
+class Strawberry_tree :public Plants {
+   public:
+    Strawberry_tree(int number) : Plants(number){}
+
+    virtual Harvest* Fruit_pic() {
+        if (this->Get_Fetus_counter() != 0) {
+            this->Set_fetus_counter(this->Get_Fetus_counter() - 1);
+            return new Strawberry(100, "red");
+
+        }
+            
+       
     }
 
 };
 
-class Strawberry_tree :public Plants {
+
+
+class Blackberry_tree :public Plants {
+public:
+    Blackberry_tree(int number) : Plants(number) {}
+
     virtual Harvest* Fruit_pic() {
+        if (this->Get_Fetus_counter() != 0) {
+            this->Set_fetus_counter(this->Get_Fetus_counter() - 1);
+            return new Strawberry(50, "black");
 
-        return new Strawberry(100, "red");
+        }
+
+
     }
-
-
 
 };
 
@@ -104,6 +143,13 @@ class Strawberry_tree :public Plants {
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::vector<Plants*> collection;
+    collection.push_back(new Blackberry_tree(13));
+    collection.push_back(new Strawberry_tree(10));
+    collection.push_back(new Apple_tree(5));
+    
+    for (auto& el : collection) {
+        std::cout << el->Fruit_pic()->Get_name()   << "\n";
+    }
 }
 
