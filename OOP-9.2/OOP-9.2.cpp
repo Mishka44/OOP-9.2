@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <Windows.h>
 #include <vector>
 
 class Harvest {
@@ -94,7 +95,9 @@ public:
 
 class Apple_tree :public Plants {
 public:
-    Apple_tree(int number) : Plants(number){}
+    Apple_tree(int number, std::string size) : Plants(number){
+        this->Set_Size(size);
+    }
 
     virtual Harvest* Fruit_pic() {
         if (this->Get_Fetus_counter() != 0) {
@@ -106,7 +109,9 @@ public:
 
 class Strawberry_tree :public Plants {
    public:
-    Strawberry_tree(int number) : Plants(number){}
+    Strawberry_tree(int number, std::string size) : Plants(number){
+        this->Set_Size(size);
+    }
 
     virtual Harvest* Fruit_pic() {
         if (this->Get_Fetus_counter() != 0) {
@@ -124,12 +129,14 @@ class Strawberry_tree :public Plants {
 
 class Blackberry_tree :public Plants {
 public:
-    Blackberry_tree(int number) : Plants(number) {}
+    Blackberry_tree(int number, std::string size) : Plants(number) {
+        this->Set_Size(size);
+    }
 
     virtual Harvest* Fruit_pic() {
         if (this->Get_Fetus_counter() != 0) {
             this->Set_fetus_counter(this->Get_Fetus_counter() - 1);
-            return new Strawberry(50, "black");
+            return new Blackberry(50, "black");
 
         }
 
@@ -143,13 +150,20 @@ public:
 
 int main()
 {
+
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, "ru");
+
     std::vector<Plants*> collection;
-    collection.push_back(new Blackberry_tree(13));
-    collection.push_back(new Strawberry_tree(10));
-    collection.push_back(new Apple_tree(5));
+    collection.push_back(new Blackberry_tree(13, "small"));
+    collection.push_back(new Strawberry_tree(10, "medium"));
+    collection.push_back(new Apple_tree(5, "Big"));
     
     for (auto& el : collection) {
-        std::cout << el->Fruit_pic()->Get_name()   << "\n";
+        std::cout << el->Fruit_pic()->Get_name()   << "\t";
+        std::cout << el->Get_size() << "\n";
+        std::cout << "осталось плодов на дереве: " << el->Get_Fetus_counter() << "\n";
     }
 }
 
