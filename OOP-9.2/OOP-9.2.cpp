@@ -58,7 +58,7 @@ public:
     int Get_Fetus_counter() {
         return fetus_counter;
     }
-    void Set_fetus_counter(int number) {
+    virtual void Set_fetus_counter(int number) {
         this->fetus_counter = number;
     }
 
@@ -105,6 +105,8 @@ public:
             return new Apple(23, "green");
         }
     }
+    
+
 };
 
 class Strawberry_tree :public Plants {
@@ -137,6 +139,9 @@ public:
         if (this->Get_Fetus_counter() != 0) {
             this->Set_fetus_counter(this->Get_Fetus_counter() - 1);
             return new Blackberry(50, "black");
+        }
+        else {
+            std::cout << "плодов больше нет:(";
 
         }
 
@@ -156,13 +161,13 @@ int main()
     setlocale(LC_ALL, "ru");
 
     std::vector<Plants*> collection;
-    collection.push_back(new Blackberry_tree(13, "small"));
-    collection.push_back(new Strawberry_tree(10, "medium"));
-    collection.push_back(new Apple_tree(5, "Big"));
+    collection.push_back(new Blackberry_tree(0, "small"));
+    collection.push_back(new Strawberry_tree(12, "medium"));
+    collection.push_back(new Apple_tree(13, "Big"));
     
     for (auto& el : collection) {
-        std::cout << el->Fruit_pic()->Get_name()   << "\t";
-        std::cout << el->Get_size() << "\n";
+        std::cout << el->Fruit_pic()->Get_name()   << "\n";
+        std::cout << "размер:" << el->Get_size() << "\n";
         std::cout << "осталось плодов на дереве: " << el->Get_Fetus_counter() << "\n";
     }
 }
